@@ -24,16 +24,16 @@ DEFAULT_DATA_QUALITY_RULESET = """
 # Script generated for node Customer Trusted
 CustomerTrusted_node1758743938607 = glueContext.create_dynamic_frame.from_catalog(database="jonwgu", table_name="customer_trusted", transformation_ctx="CustomerTrusted_node1758743938607")
 
-# Script generated for node Accelerometer Landing
-AccelerometerLanding_node1758743960668 = glueContext.create_dynamic_frame.from_catalog(database="jonwgu", table_name="accelerometer_landing", transformation_ctx="AccelerometerLanding_node1758743960668")
+# Script generated for node Accelerometer Trusted
+AccelerometerTrusted_node1758743960668 = glueContext.create_dynamic_frame.from_catalog(database="jonwgu", table_name="accelerometer_trusted", transformation_ctx="AccelerometerTrusted_node1758743960668")
 
 # Script generated for node Join
 CustomerTrusted_node1758743938607DF = CustomerTrusted_node1758743938607.toDF()
-AccelerometerLanding_node1758743960668DF = AccelerometerLanding_node1758743960668.toDF()
-Join_node1758744050580 = DynamicFrame.fromDF(CustomerTrusted_node1758743938607DF.join(AccelerometerLanding_node1758743960668DF, (CustomerTrusted_node1758743938607DF['email'] == AccelerometerLanding_node1758743960668DF['user']), "leftsemi"), glueContext, "Join_node1758744050580")
+AccelerometerTrusted_node1758743960668DF = AccelerometerTrusted_node1758743960668.toDF()
+Join_node1758744050580 = DynamicFrame.fromDF(CustomerTrusted_node1758743938607DF.join(AccelerometerTrusted_node1758743960668DF, (CustomerTrusted_node1758743938607DF['email'] == AccelerometerTrusted_node1758743960668DF['user']), "leftsemi"), glueContext, "Join_node1758744050580")
 
 # Script generated for node Drop Fields
-DropFields_node1758744106271 = DropFields.apply(frame=Join_node1758744050580, paths=["user", "timestamp", "x", "y", "z", "serialnumber"], transformation_ctx="DropFields_node1758744106271")
+DropFields_node1758744106271 = DropFields.apply(frame=Join_node1758744050580, paths=["user", "timestamp", "x", "y", "z"], transformation_ctx="DropFields_node1758744106271")
 
 # Script generated for node Customer Curated
 EvaluateDataQuality().process_rows(frame=DropFields_node1758744106271, ruleset=DEFAULT_DATA_QUALITY_RULESET, publishing_options={"dataQualityEvaluationContext": "EvaluateDataQuality_node1758743898611", "enableDataQualityResultsPublishing": True}, additional_options={"dataQualityResultsPublishing.strategy": "BEST_EFFORT", "observations.scope": "ALL"})
